@@ -12,6 +12,9 @@ let fullPrice = screenPrice + servicePrice1 + servicePrice2;
 let percentRollback = fullPrice * (rollback / 100);
 let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100));
 
+let lowScreens = screens.toLowerCase();
+let substrScreens = lowScreens.split(", ");
+
 if (fullPrice > 30000) {
   console.log("Даем скидку в 10%");
 } else if (fullPrice > 15000 && fullPrice <= 30000) {
@@ -22,8 +25,12 @@ if (fullPrice > 30000) {
   console.log("Что то пошло не так");
 }
 
+console.log(
+  `Стоимость верстки экранов ${screenPrice} рублей и Стоимость разработки сайта ${fullPrice} рублей`
+);
 console.log(servicePercentPrice);
 console.log(`Процент отката посреднику за работу ${percentRollback}`);
 console.log(typeof title);
 console.log(typeof fullPrice);
 console.log(typeof adaptive);
+console.log(substrScreens);
