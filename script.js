@@ -9,8 +9,6 @@ let service1 = prompt("Какой дополнительный тип услуг
 let servicePrice1 = +prompt("Сколько это будет стоить?", "12000");
 let service2 = prompt("Какой дополнительный тип услуги нужен?", "Тип2");
 let servicePrice2 = +prompt("Сколько это будет стоить?", "12000");
-let fullPrice = screenPrice + servicePrice1 + servicePrice2;
-let percentRollback = fullPrice * (rollback / 100);
 
 function getRolbackMessage(fullPrice) {
   if (fullPrice > 30000) {
@@ -24,18 +22,17 @@ function getRolbackMessage(fullPrice) {
   }
 }
 
-const allServicePrice = function getAllServicePrices(
-  servicePrice1,
-  servicePrice2
-) {
+function getAllServicePrices(servicePrice1, servicePrice2) {
   return servicePrice1 + servicePrice2;
-};
-
-function getFullPrice(screenPrice, allServicePrice) {
-  return screenPrice + allServicePrice(servicePrice1, servicePrice2);
 }
 
-fullPrice = getFullPrice(screenPrice, allServicePrice);
+const allServicePrice = getAllServicePrices(servicePrice1, servicePrice2);
+
+function getFullPrice(screenPrice, allServicePrice) {
+  return screenPrice + allServicePrice;
+}
+
+const fullPrice = getFullPrice(screenPrice, allServicePrice);
 
 function getTitle(title) {
   let arrayTitle = title.split(" ");
