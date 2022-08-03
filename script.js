@@ -24,3 +24,6 @@ if (fullPrice > 30000) {
 
 console.log(servicePercentPrice);
 console.log(`Процент отката посреднику за работу ${percentRollback}`);
+console.log(typeof title);
+console.log(typeof fullPrice);
+console.log(typeof adaptive);
