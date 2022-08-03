@@ -4,19 +4,15 @@ let screenPrice = +prompt("Сколько будет стоить данная �
 let rollback = 100;
 let fullPrice = 200000;
 let adaptive = confirm("Нужен ли адаптив на сайте?");
-
-let percentRollback = fullPrice * (rollback / 100);
-console.log(`Процент отката посреднику за работу ${percentRollback}`);
-
+let percentRollback;
 let service1 = prompt("Какой дополнительный тип услуги нужен?", "Тип1");
 let servicePrice1 = +prompt("Сколько это будет стоить?", "12000");
 let service2 = prompt("Какой дополнительный тип услуги нужен?", "Тип2");
 let servicePrice2 = +prompt("Сколько это будет стоить?", "12000");
 
 fullPrice = screenPrice + servicePrice1 + servicePrice2;
-
+percentRollback = fullPrice * (rollback / 100);
 let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100));
-console.log(servicePercentPrice);
 
 if (fullPrice > 30000) {
   console.log("Даем скидку в 10%");
@@ -27,3 +23,6 @@ if (fullPrice > 30000) {
 } else {
   console.log("Что то пошло не так");
 }
+
+console.log(servicePercentPrice);
+console.log(`Процент отката посреднику за работу ${percentRollback}`);
