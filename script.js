@@ -64,14 +64,10 @@ function getAllServicePrices(service) {
 }
 
 asking();
-const allServicePrice = getAllServicePrices(service);
 
 function getFullPrice(screenPrice, allServicePrice) {
   return +screenPrice + allServicePrice;
 }
-
-let fullPrice = getFullPrice(screenPrice, allServicePrice);
-let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100));
 
 function getTitle(title) {
   let arrayTitle = title.split(" ");
@@ -103,13 +99,18 @@ function getTitle(title) {
   return result.join(" ");
 }
 
-servicePercentPrice = function getServicePercentPrices(fullPrice, rollback) {
-  return fullPrice - Math.ceil(fullPrice * (rollback / 100));
-};
-
 function showTypeOf(element) {
   console.log(element + " " + typeof element);
 }
+
+const allServicePrice = getAllServicePrices(service);
+let fullPrice = getFullPrice(screenPrice, allServicePrice);
+let servicePercentPrice = function getServicePercentPrices(
+  fullPrice,
+  rollback
+) {
+  return fullPrice - Math.ceil(fullPrice * (rollback / 100));
+};
 
 showTypeOf(getTitle(title));
 showTypeOf(fullPrice);
