@@ -1,23 +1,44 @@
-let title = prompt("Как называется ваш проект?", `Сайта "Автоуслуги"`);
-let screens = prompt("Какие типы экранов нужно разработать?", "Простые");
-let screenPrice = +prompt("Сколько будет стоить данная работа?", "12000");
-let rollback = 100;
-let fullPrice = 200000;
-let adaptive = confirm("Нужен ли адаптив на сайте?");
+let title;
+let screens;
+let screenPrice;
+let rollback = 30;
+let adaptive;
 
-let lowScreens = screens.toLowerCase();
-let substrScreens = lowScreens.split(",", " ");
+let service = [];
 
-let percentRollback = fullPrice * (rollback / 100);
-let service1 = prompt("Какой дополнительный тип услуги нужен?", "Тип1");
-let servicePrice1 = +prompt("Сколько это будет стоить?", "12000");
-let service2 = prompt("Какой дополнительный тип услуги нужен?", "Тип2");
-let servicePrice2 = +prompt("Сколько это будет стоить?", "12000");
+function asking() {
+  do {
+    title = prompt("Как называется ваш проект?", `Сайта "Автоуслуги"`);
+  } while (isNumber(title));
 
-fullPrice = screenPrice + servicePrice1 + servicePrice2;
+  do {
+    screens = prompt("Какие типы экранов нужно разработать?", "Простые");
+  } while (isNumber(screens));
 
-let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100));
-console.log(servicePercentPrice);
+  do {
+    screenPrice = prompt("Сколько будет стоить данная работа?", "12000");
+  } while (!isNumber(screenPrice));
+  adaptive = confirm("Нужен ли адаптив на сайте?");
+
+  for (let index = 0; index < service.length; index++) {
+    if (index % 2 == 0) {
+      do {
+        service[index] = prompt(
+          "Какой дополнительный тип услуги нужен?",
+          "Тип"
+        );
+      } while (isNumber(service[index]));
+    } else {
+      do {
+        service[index] = prompt("Сколько это будет стоить?", "12000");
+      } while (!isNumber(service[index]));
+    }
+  }
+}
+
+function isNumber(num) {
+  return !isNaN(parseFloat(num) && isFinite(num));
+}
 
 function getRolbackMessage(fullPrice) {
   if (fullPrice > 30000) {
@@ -31,18 +52,26 @@ function getRolbackMessage(fullPrice) {
   }
 }
 
-const allServicePrice = function getAllServicePrices(
-  servicePrice1,
-  servicePrice2
-) {
-  return servicePrice1 + servicePrice2;
-};
-
-function getFullPrice(screenPrice, allServicePrice) {
-  return screenPrice + allServicePrice(servicePrice1, servicePrice2);
+function getAllServicePrices(service) {
+  let sum = 0;
+  for (let index = 0; index < service.length; index++) {
+    const element = service[index];
+    if (index % 2 != 0) {
+      sum += +element;
+    }
+  }
+  return sum;
 }
 
-fullPrice = getFullPrice(screenPrice, allServicePrice);
+asking();
+const allServicePrice = getAllServicePrices(service);
+
+function getFullPrice(screenPrice, allServicePrice) {
+  return +screenPrice + allServicePrice;
+}
+
+let fullPrice = getFullPrice(screenPrice, allServicePrice);
+let servicePercentPrice = fullPrice - Math.ceil(fullPrice * (rollback / 100));
 
 function getTitle(title) {
   let arrayTitle = title.split(" ");
