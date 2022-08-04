@@ -1,7 +1,7 @@
 let title = prompt("Как называется ваш проект?", `Сайта "Автоуслуги"`);
 let screens = prompt("Какие типы экранов нужно разработать?", "Простые");
 let screenPrice = +prompt("Сколько будет стоить данная работа?", "12000");
-let rollback = 100;
+let rollback = 30;
 let adaptive = confirm("Нужен ли адаптив на сайте?");
 let lowScreens = screens.toLowerCase();
 let substrScreens = lowScreens.split(",", " ");
@@ -26,13 +26,9 @@ function getAllServicePrices(servicePrice1, servicePrice2) {
   return servicePrice1 + servicePrice2;
 }
 
-const allServicePrice = getAllServicePrices(servicePrice1, servicePrice2);
-
 function getFullPrice(screenPrice, allServicePrice) {
   return screenPrice + allServicePrice;
 }
-
-const fullPrice = getFullPrice(screenPrice, allServicePrice);
 
 function getTitle(title) {
   let arrayTitle = title.split(" ");
@@ -74,6 +70,9 @@ const servicePercentPrice = function getServicePercentPrices(
 function showTypeOf(element) {
   console.log(element + " " + typeof element);
 }
+
+const allServicePrice = getAllServicePrices(servicePrice1, servicePrice2);
+const fullPrice = getFullPrice(screenPrice, allServicePrice);
 
 showTypeOf(getTitle(title));
 showTypeOf(fullPrice);
