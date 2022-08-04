@@ -3,10 +3,13 @@ let screens;
 let screenPrice;
 let rollback = 30;
 let adaptive;
+let service = new Array(4);
 
-let service = [];
+const isNumber = function (num) {
+  return !isNaN(parseFloat(num) && isFinite(num));
+};
 
-function asking() {
+const asking = function () {
   do {
     title = prompt("Как называется ваш проект?", `Сайта "Автоуслуги"`);
   } while (isNumber(title));
@@ -34,13 +37,9 @@ function asking() {
       } while (!isNumber(service[index]));
     }
   }
-}
+};
 
-function isNumber(num) {
-  return !isNaN(parseFloat(num) && isFinite(num));
-}
-
-function getRolbackMessage(fullPrice) {
+const getRolbackMessage = function (fullPrice) {
   if (fullPrice > 30000) {
     return "Даем скидку в 10%";
   } else if (fullPrice > 15000 && fullPrice <= 30000) {
@@ -50,9 +49,9 @@ function getRolbackMessage(fullPrice) {
   } else {
     return "Что то пошло не так";
   }
-}
+};
 
-function getAllServicePrices(service) {
+const getAllServicePrices = function (service) {
   let sum = 0;
   for (let index = 0; index < service.length; index++) {
     const element = service[index];
@@ -61,15 +60,13 @@ function getAllServicePrices(service) {
     }
   }
   return sum;
-}
+};
 
-asking();
-
-function getFullPrice(screenPrice, allServicePrice) {
+const getFullPrice = function (screenPrice, allServicePrice) {
   return +screenPrice + allServicePrice;
-}
+};
 
-function getTitle(title) {
+const getTitle = function (title) {
   let arrayTitle = title.split(" ");
   let result = new Array(arrayTitle.length);
   let counCappitalLetter = 0;
@@ -97,27 +94,26 @@ function getTitle(title) {
     result[i] = result[i].join("");
   }
   return result.join(" ");
-}
-
-function showTypeOf(element) {
-  console.log(element + " " + typeof element);
-}
-
-const allServicePrice = getAllServicePrices(service);
-let fullPrice = getFullPrice(screenPrice, allServicePrice);
-let servicePercentPrice = function getServicePercentPrices(
-  fullPrice,
-  rollback
-) {
-  return fullPrice - Math.ceil(fullPrice * (rollback / 100));
 };
 
+function getServicePercentPrices(fullPrice, rollback) {
+  return fullPrice - Math.ceil(fullPrice * (rollback / 100));
+}
+
+const showTypeOf = function (element) {
+  console.log(element + " " + typeof element);
+};
+
+asking();
+const allServicePrice = getAllServicePrices(service);
+let fullPrice = getFullPrice(screenPrice, allServicePrice);
+let servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 showTypeOf(getTitle(title));
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
+
 console.log(screens);
 console.log(getRolbackMessage(fullPrice));
 console.log(
-  "Cтоимость за вычетом процента отката посреднику " +
-    servicePercentPrice(fullPrice, rollback)
+  "Cтоимость за вычетом процента отката посреднику " + servicePercentPrice
 );
