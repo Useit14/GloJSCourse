@@ -1,22 +1,17 @@
 const appData = {
   title: "",
-  screens: "",
+  screens: [],
   screenPrice: 0,
+  allServicePrice: 0,
   rollback: 30,
   adaptive: true,
-  service: new Array(4),
+  services: {},
   start: function () {
     appData.asking();
-    appData.allServicePrice = appData.getAllServicePrices(appData.service);
-    appData.fullPrice = appData.getFullPrice(
-      appData.screenPrice,
-      appData.allServicePrice
-    );
-    appData.title = appData.getTitle(appData.title);
-    appData.servicePercentPrice = appData.getServicePercentPrices(
-      appData.fullPrice,
-      appData.rollback
-    );
+    appData.addPrice(appData.screens, appData.services);
+    appData.getFullPrice(appData.screenPrice, appData.allServicePrice);
+    appData.getTitle(appData.title);
+    appData.getServicePercentPrices(appData.fullPrice, appData.rollback);
     appData.logger();
   },
   asking: function () {
@@ -27,12 +22,31 @@ const appData = {
       );
     } while (appData.isNumber(appData.title));
 
-    do {
-      appData.screens = prompt(
-        "Какие типы экранов нужно разработать?",
-        "Простые"
-      );
-    } while (appData.isNumber(appData.screens));
+    for (let index = 0; index < 2; index++) {
+      let name;
+      do {
+        name = prompt("Какие типы экранов нужно разработать?", "Простые");
+      } while (appData.isNumber(name));
+
+      let price = 0;
+      do {
+        price = prompt("Сколько будет стоить данная работа?", "1000");
+      } while (!appData.isNumber(price));
+      appData.screens.push({ id: index, name, price: +price });
+    }
+
+    for (let index = 0; index < 2; index++) {
+      let name;
+      do {
+        name = prompt("Какой дополнительный тип услуги нужен?", "Тип");
+      } while (appData.isNumber(name));
+
+      let price = 0;
+      do {
+        price = prompt("Сколько это будет стоить?", "12000");
+      } while (!appData.isNumber(price));
+      appData.services[name + index] = +price;
+    }
 
     do {
       appData.screenPrice = prompt(
@@ -41,19 +55,16 @@ const appData = {
       );
     } while (!appData.isNumber(appData.screenPrice));
     appData.adaptive = confirm("Нужен ли адаптив на сайте?");
+  },
+  addPrice: function (screens, services) {
+    appData.screenPrice = screens.reduce(
+      (previousValue, currentValue) => currentValue.price + previousValue,
+      0
+    );
 
-    for (let index = 0; index < appData.service.length; index++) {
-      if (index % 2 == 0) {
-        do {
-          appData.service[index] = prompt(
-            "Какой дополнительный тип услуги нужен?",
-            "Тип"
-          );
-        } while (appData.isNumber(appData.service[index]));
-      } else {
-        do {
-          appData.service[index] = prompt("Сколько это будет стоить?", "12000");
-        } while (!appData.isNumber(appData.service[index]));
+    for (const key in services) {
+      if (services.hasOwnProperty(key)) {
+        appData.allServicePrice += services[key];
       }
     }
   },
@@ -84,10 +95,10 @@ const appData = {
       }
       result[i] = result[i].join("");
     }
-    return result.join(" ");
+    appData.title = result.join(" ");
   },
   isNumber: function (num) {
-    return !isNaN(parseFloat(num) && isFinite(num));
+    return !isNaN(parseFloat(num)) && isFinite(num);
   },
   getRolbackMessage: function (fullPrice) {
     if (fullPrice > 30000) {
@@ -100,29 +111,18 @@ const appData = {
       return "Что то пошло не так";
     }
   },
-  getAllServicePrices: function (service) {
-    let sum = 0;
-    for (let index = 0; index < service.length; index++) {
-      const element = service[index];
-      if (index % 2 != 0) {
-        sum += +element;
-      }
-    }
-    return sum;
-  },
+
   getFullPrice: function (screenPrice, allServicePrice) {
-    return +screenPrice + allServicePrice;
+    appData.fullPrice = +screenPrice + allServicePrice;
   },
   getServicePercentPrices: function (fullPrice, rollback) {
-    return fullPrice - Math.ceil(fullPrice * (rollback / 100));
+    appData.servicePercentPrice =
+      fullPrice - Math.ceil(fullPrice * (rollback / 100));
   },
   logger: function () {
-    for (const key in appData) {
-      if (Object.hasOwnProperty.call(appData, key)) {
-        const element = appData[key];
-        console.log(key + " " + element);
-      }
-    }
+    console.log(appData.fullPrice);
+    console.log(appData.servicePercentPrice);
+    console.log(appData.screenPrice);
   },
 };
 
