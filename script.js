@@ -30,7 +30,7 @@ const appData = {
 
       let price = 0;
       do {
-        price = prompt("Сколько будет стоить данная работа?", "1000");
+        price = prompt("Сколько это будет стоить?", "1000");
       } while (!appData.isNumber(price));
       appData.screens.push({ id: index, name, price: +price });
     }
@@ -120,9 +120,11 @@ const appData = {
       fullPrice - Math.ceil(fullPrice * (rollback / 100));
   },
   logger: function () {
-    console.log(appData.fullPrice);
-    console.log(appData.servicePercentPrice);
-    console.log(appData.screenPrice);
+    for (const key in appData) {
+      if (Object.hasOwnProperty.call(appData, key)) {
+        console.log(key + " " + appData[key]);
+      }
+    }
   },
 };
 
