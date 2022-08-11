@@ -63,12 +63,6 @@ const appData = {
       appData.services[name + index] = +price;
     }
 
-    do {
-      appData.screenPrice = prompt(
-        "Сколько будет стоить данная работа?",
-        "12000"
-      );
-    } while (!appData.isNumber(appData.screenPrice));
     appData.adaptive = confirm("Нужен ли адаптив на сайте?");
   },
   addPrice: function (screens, services) {
