@@ -13,7 +13,6 @@ let input3 = totalInputs[2];
 let input4 = totalInputs[3];
 let input5 = totalInputs[4];
 let screenElements = document.querySelectorAll(".screen");
-debugger;
 
 const appData = {
   title: "",
