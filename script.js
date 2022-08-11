@@ -1,8 +1,9 @@
 const title = document.getElementsByTagName("h1")[0];
-const handlerBtn = document.getElementsByClassName("handler_btn");
+const handlerCalculate = document.getElementsByClassName("handler_btn")[0];
+const handlerReset = document.getElementsByClassName("handler_btn")[1];
 const screenBtn = document.querySelector(".screen-btn");
-const percentItems = document.querySelectorAll(".other-items + .percent");
-const numberItems = document.querySelectorAll(".other-items + .number");
+const percentItems = document.querySelectorAll(".percent");
+const numberItems = document.querySelectorAll(".number");
 const inputRange = document.querySelector(".rollback input[type=range] ");
 const rangeValue = document.querySelector(".rollback span.range-value");
 const totalInputs = document.getElementsByClassName("total-input");
@@ -12,6 +13,7 @@ let input3 = totalInputs[2];
 let input4 = totalInputs[3];
 let input5 = totalInputs[4];
 let screenElements = document.querySelectorAll(".screen");
+debugger;
 
 const appData = {
   title: "",
