@@ -23,6 +23,7 @@ const appData = {
   servicePriceNumber: 0,
   rollback: 30,
   adaptive: true,
+  calculate: false,
   servicesPercent: {},
   servicesNumber: {},
   init: function () {
@@ -35,6 +36,7 @@ const appData = {
     document.title = title.textContent;
   },
   start: function () {
+    appData.calculate = true;
     appData.addScreens();
     appData.addServices();
     appData.addPrice(
@@ -106,6 +108,13 @@ const appData = {
   handlerRollback: function (e) {
     rangeValue.textContent = e.target.value + "%";
     appData.rollback = e.target.value;
+    if (appData.calculate) {
+      appData.priceRollback =
+        appData.fullPrice -
+        Math.ceil(appData.fullPrice * (appData.rollback / 100));
+
+      appData.showResult();
+    }
   },
   addPrice: function (screens, servicesPrice, servicesPercent) {
     appData.screenPrice = screens.reduce(
