@@ -36,6 +36,9 @@ const appData = {
     document.title = title.textContent;
   },
   start: function () {
+    if (appData.isInsertDate()) {
+      return;
+    }
     appData.calculate = true;
     appData.addScreens();
     appData.addServices();
@@ -45,16 +48,13 @@ const appData = {
       appData.servicesPercent
     );
     // appData.logger();
-    if (appData.isInsertDate()) {
-      return;
-    }
     appData.showResult();
   },
   isInsertDate: function () {
-    let result = false;
+    let result = true;
     appData.screens.forEach((element) => {
-      if (element.name == "Тип экранов" || element.price == 0) {
-        result = true;
+      if (element.name != "Тип экранов" || element.price != 0) {
+        result = false;
       }
     });
     return result;
@@ -103,6 +103,8 @@ const appData = {
   },
   addScreenBlock: function () {
     const cloneScreens = screenElements[0].cloneNode(true);
+    const input = cloneScreens.querySelector("input[type=text]");
+    input.value = "";
     screenElements[screenElements.length - 1].after(cloneScreens);
   },
   handlerRollback: function (e) {
