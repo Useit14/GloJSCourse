@@ -36,11 +36,11 @@ const appData = {
     document.title = title.textContent;
   },
   start: function () {
+    appData.calculate = true;
+    appData.addScreens();
     if (appData.isInsertDate()) {
       return;
     }
-    appData.calculate = true;
-    appData.addScreens();
     appData.addServices();
     appData.addPrice(
       appData.screens,
@@ -72,6 +72,10 @@ const appData = {
       const select = screenElement.querySelector("select");
       const input = screenElement.querySelector("input");
       const selectName = select.options[select.selectedIndex].textContent;
+      if (+input.value == 0 || selectName == "Тип экранов") {
+        appData.screens = [];
+        return;
+      }
       appData.screens.push({
         id: index,
         name: selectName,
@@ -102,6 +106,7 @@ const appData = {
     console.log(appData);
   },
   addScreenBlock: function () {
+    screenElements = document.querySelectorAll(".screen");
     const cloneScreens = screenElements[0].cloneNode(true);
     const input = cloneScreens.querySelector("input[type=text]");
     input.value = "";
