@@ -50,12 +50,18 @@ const appData = {
         if (input.attributes.style.value.includes("none")) {
           input.style = "display:flex";
         }
+        const subInput = input.querySelector("input");
+        subInput.addEventListener("change", function () {
+          debugger;
+          appData.percentCMS = +subInput.value;
+        });
       } else if (e.target.value == "50") {
         appData.percentCMS = 50;
       } else {
         input.style = "display:none";
       }
     });
+    debugger;
   },
   reset: function () {
     appData.controls.forEach((item) => {
@@ -68,10 +74,11 @@ const appData = {
           item.checked = false;
         }
       }
-
       item.disabled = false;
+      console.dir(appData);
     });
     for (const key in appData) {
+      debugger;
       if (Object.hasOwnProperty.call(appData, key)) {
         switch (typeof appData[key]) {
           case "number":
@@ -137,10 +144,10 @@ const appData = {
     mainControls.querySelectorAll("input[type=checkbox]").forEach((item) => {
       appData.controls.push(item);
     });
+    appData.controls.push(inputRange);
   },
   disable: function () {
     appData.controls.forEach((item) => {
-      console.dir(item);
       item.disabled = true;
     });
     handlerCalculate.style = "display:none";
@@ -211,7 +218,7 @@ const appData = {
   },
   handlerRollback: function (e) {
     rangeValue.textContent = e.target.value + "%";
-    appData.rollback = e.target.value;
+    appData.rollback = +e.target.value;
     if (appData.calculate) {
       appData.priceRollback =
         appData.fullPrice -
